@@ -1,7 +1,24 @@
 from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 # Create your views here.
+class PrettifyNumberView(APIView):
+    def get(self, request, number):
+        try:
+            number = float(number)
+        except ValueError or TypeError:
+            return Response({'error': 'Please enter a number.'}, status=400)
+
+        try:
+            prettified_number = prettify_num(number)
+        except OverflowError:
+            return Response({'error': 'Number is too long.'}, status=400)
+
+        return Response({'prettified_number': prettified_number})
+
+
 def prettify(request):
     if request.method == 'POST':
         input_number = request.POST.get('input_number', '')
@@ -25,20 +42,24 @@ def prettify_num(num):
     num_length = len(str(int(num)))
 
     if 3 < num_length <= 6:
-        truncated = round((num / pow(10, 3)), 1)
-        prettified = int(truncated) if truncated.is_integer() else truncated
-        return str(prettified) + 'k'
+        zeroes = 3
+        suffix = 'k'
     elif 9 >= num_length > 6:
-        truncated = round((num / pow(10, 6)), 1)
-        prettified = int(truncated) if truncated.is_integer() else truncated
-        return str(prettified) + 'M'
+        zeroes = 6
+        suffix = 'M'
     elif 12 >= num_length > 9:
-        truncated = round((num / pow(10, 9)), 1)
-        prettified = int(truncated) if truncated.is_integer() else truncated
-        return str(prettified) + 'B'
+        zeroes = 9
+        suffix = 'B'
     elif num_length > 12:
-        truncated = round((num / pow(10, 12)), 1)
-        prettified = int(truncated) if truncated.is_integer() else truncated
-        return str(prettified) + 'T'
+        zeroes = 12
+        suffix = 'T'
     else:
         return str(int(num))
+    return str(truncate_num(num, zeroes)) + suffix
+
+
+def truncate_num(num, zeroes):
+    truncated = round((num / pow(10, zeroes)), 1)
+    prettified = int(truncated) if truncated.is_integer() else truncated
+    return prettified
+
