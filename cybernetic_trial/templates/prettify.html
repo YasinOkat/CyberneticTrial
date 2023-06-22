@@ -99,7 +99,12 @@ body {
     <label>Enter the number</label>
     <input type="text" name="input_number" id="input_number" width="100px" />
     <input type="submit" value="Submit">
+    {% if error %}
+    <label>{{error}}</label>
+    {% endif %}
+    {% if output_number %}
     <label>The output is: {{ output_number }}</label>
+    {% endif %}
 </form>
 
 

@@ -5,9 +5,19 @@ from django.shortcuts import render
 
 def prettify(request):
     if request.method == 'POST':
-        input_number = float(request.POST.get('input_number', 0))
+        input_number = request.POST.get('input_number', '')
 
-        return render(request, 'prettify.html', {'output_number': prettify_num(input_number)})
+        try:
+            input_number = float(input_number)
+        except ValueError or TypeError:
+            return render(request, 'prettify.html', {'error': 'Please enter a number.'})
+
+        try:
+            pretified_num = prettify_num(input_number)
+        except OverflowError:
+            return render(request, 'prettify.html', {'error': 'Number is too long.'})
+
+        return render(request, 'prettify.html', {'output_number': pretified_num, 'error': None})
     else:
         return render(request, 'prettify.html')
 
@@ -15,11 +25,11 @@ def prettify(request):
 def prettify_num(num):
     num_length = len(str(int(num)))
 
-    if 3 < num_length < 5:
+    if 3 < num_length <= 6:
         truncated = round((num / pow(10, 3)), 1)
         prettified = int(truncated) if truncated.is_integer() else truncated
         return str(prettified) + 'k'
-    elif 9 > num_length > 6:
+    elif 9 >= num_length > 6:
         truncated = round((num / pow(10, 6)), 1)
         prettified = int(truncated) if truncated.is_integer() else truncated
         return str(prettified) + 'M'
