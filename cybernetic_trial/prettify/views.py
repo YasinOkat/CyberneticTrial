@@ -2,7 +2,6 @@ from django.shortcuts import render
 
 
 # Create your views here.
-
 def prettify(request):
     if request.method == 'POST':
         input_number = request.POST.get('input_number', '')
@@ -13,11 +12,11 @@ def prettify(request):
             return render(request, 'prettify.html', {'error': 'Please enter a number.'})
 
         try:
-            pretified_num = prettify_num(input_number)
+            prettified_num = prettify_num(input_number)
         except OverflowError:
             return render(request, 'prettify.html', {'error': 'Number is too long.'})
 
-        return render(request, 'prettify.html', {'output_number': pretified_num, 'error': None})
+        return render(request, 'prettify.html', {'output_number': prettified_num, 'error': None})
     else:
         return render(request, 'prettify.html')
 
