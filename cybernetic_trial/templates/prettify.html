@@ -94,13 +94,15 @@ body {
     }
     </style>
 
-    <form id="post-form" method="POST" action="checkview">
-        {% csrf_token %}
-        <label>Enter the number</label>
-        <input type="text" name="input_number" id="input_number" width="100px" />
-        <input type="submit" value="Submit">
-        <label>The output is: </label>
-    </form>
+    <form id="post-form" method="POST" action="prettify">
+    {% csrf_token %}
+    <label>Enter the number</label>
+    <input type="text" name="input_number" id="input_number" width="100px" />
+    <input type="submit" value="Submit">
+    <label>The output is: {{ output_number }}</label>
+</form>
+
+
 </div>
 
 
