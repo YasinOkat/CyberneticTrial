@@ -19,9 +19,30 @@ class Test(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Number is too long.')
 
-    def test_float_num(self):
+    def test_decimal_num(self):
         url = reverse('prettify')
         input_num = {'input_number': '23423.34534'}
         response = self.client.post(url, data=input_num)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '23.4k')
+
+    def test_million(self):
+        url = reverse('prettify')
+        input_num = {'input_number': '1000000'}
+        response = self.client.post(url, data=input_num)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '1M')
+
+    def test_billion(self):
+        url = reverse('prettify')
+        input_num = {'input_number': '3453445453.3423'}
+        response = self.client.post(url, data=input_num)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '3.5B')
+
+    def test_trillion(self):
+        url = reverse('prettify')
+        input_num = {'input_number': '3453444555453.3423'}
+        response = self.client.post(url, data=input_num)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '3.5T')

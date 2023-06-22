@@ -32,9 +32,13 @@ def prettify_num(num):
         truncated = round((num / pow(10, 6)), 1)
         prettified = int(truncated) if truncated.is_integer() else truncated
         return str(prettified) + 'M'
-    elif num_length > 9:
+    elif 12 >= num_length > 9:
         truncated = round((num / pow(10, 9)), 1)
         prettified = int(truncated) if truncated.is_integer() else truncated
         return str(prettified) + 'B'
+    elif num_length > 12:
+        truncated = round((num / pow(10, 12)), 1)
+        prettified = int(truncated) if truncated.is_integer() else truncated
+        return str(prettified) + 'T'
     else:
         return str(int(num))
