@@ -62,4 +62,3 @@ def truncate_num(num, zeroes):
     truncated = round((num / pow(10, zeroes)), 1)
     prettified = int(truncated) if truncated.is_integer() else truncated
     return prettified
-
