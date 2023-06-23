@@ -49,6 +49,15 @@ This project is a REST API + web application that is taking input number, then r
    ```
 7. This will return '1M'
 
+# Screenshots
+
+<p align="center">
+  <img src="preview/home_page.PNG" alt="Web app" width="600">
+</p>
+<p align="center">
+  <img src="preview/rest.PNG" alt="REST API" width="600">
+</p>
+
 # Tests and exception/error handling
 
 The app includes several unit tests
