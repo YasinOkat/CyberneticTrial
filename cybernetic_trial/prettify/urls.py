@@ -1,8 +1,8 @@
 from django.urls import path
 from . import views
-from .views import PrettifyNumberView
+from .views import PrettifyNumber
 
 urlpatterns = [
     path('', views.prettify, name='prettify'),
-    path('<str:number>/', PrettifyNumberView.as_view(), name='prettify_number'),
+    path('<str:input_num>/', PrettifyNumber.as_view(), name='prettify_number'),
 ]
