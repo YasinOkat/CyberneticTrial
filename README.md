@@ -49,6 +49,14 @@ This project is a REST API + web application that is taking input number, then r
    ```
 7. This will return '1M'
 
+# Tests and exception/error handling
+
+The app includes several unit tests
+
+1. Tests if the input is a number or not
+2. Tests if the input number is too long
+3. There are tests for different scenarios such as decimal input, million input, billion input, and trillion input
+
 # Algorithm
 * If the number is less than 4 digits, it will just remove the decimal points, remains unchanged if it's integer
 * If the number has 4 to 6 digits, the 'k' suffix will be added after the number is divided by 1000, e.g. 3.5k for 3500
