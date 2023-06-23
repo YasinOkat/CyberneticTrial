@@ -11,13 +11,13 @@ class Test(TestCase):
     def test_non_number_input(self):
         response = self.client.get('/abc/')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.json(), {'error': 'Please enter a number.'})
+        self.assertEqual(response.json(), {'error': 'You should enter a number.'})
 
     def test_too_long_num(self):
         long_num = str(pow(10, 1000))
         response = self.client.get('/' + long_num + '/')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.json(), {'error': 'Number is too long.'})
+        self.assertEqual(response.json(), {'error': 'Number is too long to be evaluated.'})
 
     def test_decimal_num(self):
         input_num = '23423.34534'

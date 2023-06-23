@@ -6,18 +6,18 @@ from rest_framework.response import Response
 
 
 # This is the REST API
-class PrettifyNumberView(APIView):
-    def get(self, request, number):
+class PrettifyNumber(APIView):
+    def get(self, request, input_num):
         try:
-            number = float(number)  # Converts the input number to float
+            input_num = float(input_num)  # Converts the input number to float
         except (ValueError, TypeError):
-            return Response({'error': 'Please enter a number.'}, status=400)  # Raises exception if the input value
+            return Response({'error': 'You should enter a number.'}, status=400)  # Raises exception if the input value
             # couldn't be converted to float
 
         try:
-            prettified_number = prettify_num(number)  # Calls the function with argument number
+            prettified_number = prettify_num(input_num)  # Calls the function with argument number
         except OverflowError:
-            return Response({'error': 'Number is too long.'}, status=400)
+            return Response({'error': 'Number is too long to be evaluated.'}, status=400)
 
         return Response({'prettified_number': prettified_number})  # Returns the prettified number as JSON format
 
@@ -29,7 +29,7 @@ def prettify(request):
         try:
             input_number = float(input_number)  # Converts the input number to float
         except ValueError or TypeError:
-            return render(request, 'prettify.html', {'error': 'Please enter a number.'})
+            return render(request, 'prettify.html', {'error': 'You should enter a number.'})
 
         try:
             api = reverse('prettify_number', args=[input_number])  # Passes the input number to API
@@ -37,7 +37,7 @@ def prettify(request):
             response = requests.get(url=full_url)
             prettified_num = response.json().get('prettified_number')  # Gets the prettified number from API
         except OverflowError:
-            return render(request, 'prettify.html', {'error': 'Number is too long.'})
+            return render(request, 'prettify.html', {'error': 'Number is too long to be evaluated.'})
 
         return render(request, 'prettify.html',
                       {'output_number': prettified_num, 'error': None})  # Renders the page with prettified number
